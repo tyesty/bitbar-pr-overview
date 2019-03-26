@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Bitbar\Repository\RepositoryFactory;
+use Bitbar\PullRequest;
 use tyesty\phpitbar\BitbarPlugin;
 use tyesty\phpitbar\DropdownLine;
 use tyesty\phpitbar\LineParameter;
@@ -42,7 +43,6 @@ $plugin->addDropdownLine($firstLine);
 $plugin->addDropdownLine(new DropdownLine('---'));
 
 foreach ($list as $pullRequest) {
-
 
     // Headline for PR.
     $prItemText = $pullRequest->title;
@@ -89,14 +89,16 @@ foreach ($list as $pullRequest) {
     $plugin->addDropdownLine($prDetail2);
 
     // Detail line 4 for PR
-    if ($notYetReviewedByYou) {
-        $detailText4 = ' :black_small_square: You still have to review this Pull Request!';
-        $prDetail4 = (new DropdownLine($detailText4))->setLineParameter($smallRedText);
-    } else {
-        $detailText4 = ' :black_small_square: Approved by you on ' . $approvalDate;
-        $prDetail4 = (new DropdownLine($detailText4))->setLineParameter($smallGreenText);
+    if ($pullRequest->issuer->username !== $username) {
+        if ($notYetReviewedByYou) {
+            $detailText4 = ' :black_small_square: You still have to review this Pull Request!';
+            $prDetail4 = (new DropdownLine($detailText4))->setLineParameter($smallRedText);
+        } else {
+            $detailText4 = ' :black_small_square: Approved by you on ' . $approvalDate;
+            $prDetail4 = (new DropdownLine($detailText4))->setLineParameter($smallGreenText);
+        }
+        $plugin->addDropdownLine($prDetail4);
     }
-    $plugin->addDropdownLine($prDetail4);
 
     // Detail line 3 for PR.
     $detailText3 = ' :white_small_square: :+1:' . $pullRequest->numberOfApproves . ' :bust_in_silhouette:' . $pullRequest->numberOfReviewers . ' :speech_balloon:' . $pullRequest->numberOfComments;

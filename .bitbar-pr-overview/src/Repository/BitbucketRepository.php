@@ -91,7 +91,7 @@ final class BitbucketRepository extends AbstractRepository
         $return = [];
 
         foreach ($issuerPrList as $issuerPr) {
-            $return[] = $this->getPrDetailsFromApi($issuerPr['repository'], (int) $issuerPr['id']);
+            $return[] = $this->getPullRequestDetails($issuerPr['repository'], (int) $issuerPr['id']);
         }
 
         return $return;
