@@ -12,6 +12,8 @@ $username = '';
 $password = '';
 $repositories = [];
 
+date_default_timezone_set('Europe/Berlin');
+
 $rep = RepositoryFactory::create(RepositoryFactory::REPO_BITBUCKET, []);
 $rep->login($username, $password);
 
@@ -106,7 +108,7 @@ foreach ($list as $pullRequest) {
 }
 
 // Last line.
-$lastItem = new DropdownLine('Refresh list...');
+$lastItem = new DropdownLine("Last updated: " . date("d.m.Y H:i:s"));
 $lastItem->setLineParameter((new LineParameter())->setIsRefreshLine(true));
 $plugin->addDropdownLine($lastItem);
 
