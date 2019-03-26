@@ -1,0 +1,5 @@
+.bitbar-pr-overview/vendor/
+.bitbar-pr-overview/composer.lock
+.idea
+.DS_Store
+composer.lock
